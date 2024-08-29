@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
 
-      <Router>
+      <Router basename='dr-python'>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/lectures" element={<Home />} />
