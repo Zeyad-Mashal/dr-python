@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav class="navbar navbar-expand-lg bg-dark text-light">
@@ -22,25 +23,15 @@ const Navbar = () => {
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a
-                class="nav-link active text-light"
-                aria-current="page"
-                href="#"
-              >
-                Home
-              </a>
+              <Link to={"/subjects"}>المواد</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light" href="#">
-                Features
-              </a>
+              <Link to={"/all_lectures"}>المحاضرات</Link>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-light" href="#">
-                Pricing
-              </a>
+              <Link to={"/"}>تسجيل خروج</Link>
             </li>
-            <li class="nav-item dropdown">
+            {/* <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle text-light"
                 href="#"
@@ -67,7 +58,7 @@ const Navbar = () => {
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

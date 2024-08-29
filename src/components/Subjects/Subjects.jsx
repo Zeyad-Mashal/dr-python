@@ -25,7 +25,7 @@ const Subjects = () => {
         <section className="subjects">
           <div className="subjects_container">
             <h3>
-              اهلا يا <span>Zeyad_Mashaal</span>
+              <span>Zeyad_Mashaal</span>
             </h3>
             <p>أختار المادة</p>
             <div className="subjects_list">
