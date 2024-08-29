@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/dr-python/static/css/main.17ac60b6.css",
-    "main.js": "/dr-python/static/js/main.0842d84e.js",
+    "main.js": "/dr-python/static/js/main.5310338e.js",
     "static/media/1.mp4": "/dr-python/static/media/1.d3740eae60b1a5155f46.mp4",
     "static/media/b2.jpg": "/dr-python/static/media/b2.143e491242b908d2e1fa.jpg",
     "index.html": "/dr-python/index.html",
     "main.17ac60b6.css.map": "/dr-python/static/css/main.17ac60b6.css.map",
-    "main.0842d84e.js.map": "/dr-python/static/js/main.0842d84e.js.map"
+    "main.5310338e.js.map": "/dr-python/static/js/main.5310338e.js.map"
   },
   "entrypoints": [
     "static/css/main.17ac60b6.css",
-    "static/js/main.0842d84e.js"
+    "static/js/main.5310338e.js"
   ]
 }
