@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/dr-python/static/css/main.3d61b419.css",
-    "main.js": "/dr-python/static/js/main.b2359995.js",
+    "main.css": "/dr-python/static/css/main.3b37d58b.css",
+    "main.js": "/dr-python/static/js/main.fecfb863.js",
     "static/media/1.mp4": "/dr-python/static/media/1.d3740eae60b1a5155f46.mp4",
+    "static/media/login.jpg": "/dr-python/static/media/login.bd1d559357fbf6486b27.jpg",
     "static/media/b2.jpg": "/dr-python/static/media/b2.143e491242b908d2e1fa.jpg",
     "index.html": "/dr-python/index.html",
-    "main.3d61b419.css.map": "/dr-python/static/css/main.3d61b419.css.map",
-    "main.b2359995.js.map": "/dr-python/static/js/main.b2359995.js.map"
+    "main.3b37d58b.css.map": "/dr-python/static/css/main.3b37d58b.css.map",
+    "main.fecfb863.js.map": "/dr-python/static/js/main.fecfb863.js.map"
   },
   "entrypoints": [
-    "static/css/main.3d61b419.css",
-    "static/js/main.b2359995.js"
+    "static/css/main.3b37d58b.css",
+    "static/js/main.fecfb863.js"
   ]
 }
