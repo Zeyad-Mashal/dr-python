@@ -20,7 +20,7 @@ const Login = () => {
         <section className="login">
           <div className="login_container">
             <div className="login_form">
-              <h3>تسجيل الدخول</h3>
+              <h3>Login</h3>
               <input type="text" placeholder="username" />
               <input type="password" placeholder="password" />
               <Link to="/subjects">

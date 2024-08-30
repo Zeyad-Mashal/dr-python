@@ -28,14 +28,14 @@ const Subjects = () => {
               <span>Zeyad_Mashaal</span>
             </h3>
             <p>أختار المادة</p>
+
+            <div className="loading_list">
+              <div className="loading_item">
+                <p></p>
+                <div></div>
+              </div>
+            </div>
             <div className="subjects_list">
-              <Link to="/all_lectures">
-                <div className="subjects_item">
-                  <h3>Programming</h3>
-                  <img src={image} alt="" />
-                  <p>سنة تالتة</p>
-                </div>
-              </Link>
               <Link to="/all_lectures">
                 <div className="subjects_item">
                   <h3>Programming</h3>

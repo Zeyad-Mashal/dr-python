@@ -5,19 +5,24 @@
   position: fixed;
   top: 0;
   bottom: 0;
-  background-color: #eee;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-
+.login_container {
+  background-image: url("../../images/login.jpg");
+  background-size: cover;
+  object-fit: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .login_form {
   width: 350px;
   margin: 10px;
   padding: 2rem 1rem;
   background-color: #fff;
-  box-shadow: 4px 4px 10px #999;
+  box-shadow: 4px 4px 10px #333;
   display: flex;
   justify-content: center;
   align-items: center;

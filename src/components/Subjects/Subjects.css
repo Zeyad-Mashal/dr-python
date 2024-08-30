@@ -52,9 +52,13 @@
 }
 .subjects_list a {
   text-decoration: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .subjects_item {
-  width: 350px;
+  width: 90%;
   background-color: #fff;
   border-radius: 16px;
   box-shadow: 4px 4px 10px #999;
@@ -124,6 +128,52 @@
   width: 100%;
   display: none;
 }
+.loading_list {
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.loading_item {
+  width: 350px;
+  height: 300px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 4px 4px 10px #999;
+  transition: 0.5s ease-in-out;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+.loading_item > p,
+.loading_item > div {
+  width: 90%;
+  background-color: #ccc;
+  height: 25px;
+  padding: 1rem;
+  margin-top: 2rem;
+  border-radius: 16px;
+  animation: skeletonLoading 2s ease-in-out infinite;
+}
+.loading_item > div {
+  height: 200px;
+  margin-top: 0;
+}
+@keyframes skeletonLoading {
+  0% {
+    background-color: #ccc;
+  }
+  50% {
+    background-color: #999;
+  }
+  100% {
+    background-color: #ccc;
+  }
+}
+
 @media screen and (max-width: 930px) {
   .errorPage {
     display: none;

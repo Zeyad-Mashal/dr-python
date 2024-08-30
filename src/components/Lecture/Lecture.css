@@ -129,6 +129,46 @@
   color: red;
   font-weight: bold;
 }
+.lceture_loading_list {
+  margin-top: 1rem;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+.lceture_loading_item {
+  width: 90%;
+  background-color: #fff;
+  height: 300px;
+  box-shadow: 4px 4px 10px #999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 16px;
+}
+.lceture_loading_item > div {
+  width: 90%;
+  background-color: #ccc;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: skeletonLoadingVideo 3s ease-in-out infinite;
+  transition: 0.5s ease-in-out;
+}
+.lceture_loading_item svg {
+  background-color: red;
+  color: #fff;
+  padding: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
 @keyframes flowRandomly {
   0% {
     top: 50%;
@@ -157,5 +197,22 @@
   100% {
     top: 50%;
     left: 0;
+  }
+}
+@keyframes skeletonLoadingVideo {
+  0% {
+    background-color: #ccc;
+  }
+  25% {
+    background-color: #999;
+  }
+  50% {
+    background-color: gray;
+  }
+  25% {
+    background-color: #999;
+  }
+  100% {
+    background-color: #ccc;
   }
 }

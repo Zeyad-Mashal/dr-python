@@ -98,6 +98,24 @@ const Lecture = () => {
           </div>
           <h2>Our Lecture</h2>
 
+          <div className="lceture_loading_list">
+            <div className="lceture_loading_item">
+              <div>
+                <FontAwesomeIcon icon={faPlay} />
+              </div>
+            </div>
+            <div className="lceture_loading_item">
+              <div>
+                <FontAwesomeIcon icon={faPlay} />
+              </div>
+            </div>
+            <div className="lceture_loading_item">
+              <div>
+                <FontAwesomeIcon icon={faPlay} />
+              </div>
+            </div>
+          </div>
+
           {videos.map((file) => (
             <div className="lecture_content" key={file.id}>
               <div className="videoPlay">

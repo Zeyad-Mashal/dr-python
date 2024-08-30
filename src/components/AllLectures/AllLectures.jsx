@@ -24,6 +24,17 @@ const AllLectures = () => {
           <div className="AllLectures_container">
             <h1 className="AllLectures_title">جميع المحاضرات</h1>
             <div className="all_lectures_list">
+              <div className="loading_list">
+                <div className="loading_item">
+                  <p></p>
+                </div>
+                <div className="loading_item">
+                  <p></p>
+                </div>
+                <div className="loading_item">
+                  <p></p>
+                </div>
+              </div>
               <Link to={"/lectures"}>
                 <div className="all_lectures_item">
                   <p>Day 1</p>

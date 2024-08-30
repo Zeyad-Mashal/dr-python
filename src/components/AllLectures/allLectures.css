@@ -89,6 +89,32 @@
   width: 100%;
   display: none;
 }
+.loading_list {
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.loading_item {
+  width: 80%;
+  height: 70px;
+  padding: 1rem;
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 4px 4px 10px #999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.loading_item > p {
+  margin: 0;
+  height: 10px;
+  padding: 10px;
+}
 @media screen and (max-width: 930px) {
   .errorPage {
     display: none;
