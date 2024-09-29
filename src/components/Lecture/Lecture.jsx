@@ -56,26 +56,43 @@ const Lecture = () => {
     }
   };
 
+  // useEffect(() => {
+  //   document.addEventListener("fullscreenchange", handleFullscreenChange);
+  //   document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+  //   document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+  //   document.addEventListener("msfullscreenchange", handleFullscreenChange);
+
+  //   return () => {
+  //     document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  //     document.removeEventListener(
+  //       "webkitfullscreenchange",
+  //       handleFullscreenChange
+  //     );
+  //     document.removeEventListener(
+  //       "mozfullscreenchange",
+  //       handleFullscreenChange
+  //     );
+  //     document.removeEventListener(
+  //       "msfullscreenchange",
+  //       handleFullscreenChange
+  //     );
+  //   };
+  // }, []);
+
   useEffect(() => {
+    const handleFullscreenChange = () => {
+      const usernameElement = document.querySelector(".floating-username");
+      if (document.fullscreenElement) {
+        usernameElement.style.position = "fixed";
+      } else {
+        usernameElement.style.position = "fixed"; // Keep fixed in non-fullscreen too
+      }
+    };
+
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.addEventListener("msfullscreenchange", handleFullscreenChange);
 
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener(
-        "webkitfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "mozfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "msfullscreenchange",
-        handleFullscreenChange
-      );
     };
   }, []);
 
@@ -119,6 +136,19 @@ const Lecture = () => {
   return (
     <>
       <div className={model ? "model open" : "model"}>
+        {/* <div style={{ position: "relative" }}>
+          <iframe
+            width="560"
+            height="315"
+            src={
+              "https://www.youtube.com/embed/XqvrpzmEg9s?si=jEsYDTc5jl8HTxOq?controls=0&showinfo=0"
+            }
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+          <div className="floating-username">Zeyad Ahmed</div>
+        </div> */}
         <div ref={flowInfoRef} className="flow_info">
           <p>Zeyad Mashaal</p>
         </div>
@@ -183,7 +213,9 @@ const Lecture = () => {
                     <div className="videoPlay">
                       <div className="iframe-container">
                         <iframe
-                          src={url}
+                          src={
+                            "https://www.youtube.com/embed/XqvrpzmEg9s?si=jEsYDTc5jl8HTxOq?autoplay=1&mute=1&controls=0"
+                          }
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen

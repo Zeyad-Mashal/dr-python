@@ -141,6 +141,26 @@
   color: red;
   font-weight: bold;
 }
+.floating-username {
+  position: fixed;
+  top: 10px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px; /* Adjust as needed */
+  color: rgba(255, 255, 255, 0.8); /* Semi-transparent */
+  z-index: 9999; /* Ensure it's on top */
+  pointer-events: none; /* Prevents interaction */
+  animation: float 3s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(-50%, -10px);
+  }
+  100% {
+    transform: translate(-50%, 10px);
+  }
+}
 .lceture_loading_list {
   margin-top: 1rem;
   width: 100%;

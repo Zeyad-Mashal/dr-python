@@ -4,6 +4,7 @@ import Login from './components/Login/Login';
 import Subjects from './components/Subjects/Subjects';
 import AllLectures from './components/AllLectures/AllLectures';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Test from './components/test/Test';
 
 function App() {
   const isAuth = localStorage.getItem("USER_TOKEN")
@@ -16,6 +17,7 @@ function App() {
           <Route path="/lectures/:subjectId/:lectureId" element={isAuth ? <Home /> : <Navigate to={"/"} />} />
           <Route path="/subjects" element={isAuth ? <Subjects /> : <Navigate to={"/"} />} />
           <Route path="/all_lectures/:subjectId" element={isAuth ? <AllLectures /> : <Navigate to={"/"} />} />
+          <Route path="/test" element={isAuth ? <Test /> : <Navigate to={"/"} />} />
         </Routes>
       </Router>
     </div>
