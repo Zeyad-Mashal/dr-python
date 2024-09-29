@@ -1,37 +1,43 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Lecture.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faX } from "@fortawesome/free-solid-svg-icons";
 import vid1 from "./1.mp4";
 import banner from "../../images/b2.jpg";
 import pdfFile from "./pdf.pdf";
 import LecturesDetailsAPI from "../../api/Lectures/LecturesDetailsAPI";
 import Subjects from "../Subjects/Subjects";
 import { useParams } from "react-router-dom";
+import LectureCounterAPI from "../../api/Lectures/LectureCounterAPI";
 const Lecture = () => {
   useEffect(() => {
     lectureDetailsApi();
   }, []);
   const { subjectId, lectureId } = useParams();
-  const videos = [
-    { id: 1, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-    { id: 2, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-    { id: 3, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-    { id: 4, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-    { id: 5, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-  ];
+  // const videos = [
+  //   { id: 1, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+  //   { id: 2, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+  //   { id: 3, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+  //   { id: 4, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+  //   { id: 5, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+  // ];
 
   const [model, setModel] = useState(false);
   const [videoURL, setVideoURL] = useState("");
   const [lectureDetails, setLectureDetails] = useState();
   const [error, setError] = useState("");
   const [getLoading, setGetLoading] = useState(false);
+  const [viewsLoading, setViewsLoading] = useState(false);
   const videoRef = useRef(null);
   const flowInfoRef = useRef(null);
 
   const getVideo = (url) => {
     setVideoURL(url);
-    setModel(true);
+    const data = {
+      lectureId,
+      videoUrl: url,
+    };
+    LectureCounterAPI(data, setError, setViewsLoading, setModel);
   };
 
   const handleFullscreenChange = () => {
@@ -106,11 +112,16 @@ const Lecture = () => {
     "https://drive.google.com/file/d/19NGhr40RpqaIUCwlcgtsMK0rmnm2vw51/view?usp=drive_link";
   const embedUrl = getEmbedUrl(baseUrl);
 
-  console.log(embedUrl); // Outputs: https://drive.google.com/file/d/19NGhr40RpqaIUCwlcgtsMK0rmnm2vw51/preview
+  const closeError = () => {
+    document.querySelector(".error_popup").style.display = "none";
+  };
 
   return (
     <>
       <div className={model ? "model open" : "model"}>
+        <div ref={flowInfoRef} className="flow_info">
+          <p>Zeyad Mashaal</p>
+        </div>
         <div
           className="videoContainer"
           ref={videoRef}
@@ -124,71 +135,82 @@ const Lecture = () => {
               allowFullScreen
             ></iframe>
           </div>
-          <div ref={flowInfoRef} className="flow_info">
-            <p>Zeyad Mashaal</p>
-          </div>
         </div>
         <button onClick={() => setModel(false)}>إنهاء</button>
       </div>
 
       <section className="lecture">
+        {viewsLoading ? (
+          <div className="loader_views">
+            <span class="loader_views_spinner"></span>
+          </div>
+        ) : null}
+        <div className="error_popup">
+          <FontAwesomeIcon icon={faX} onClick={closeError} />
+          <h3>تحذير !!</h3>
+          <p>{error}</p>
+        </div>
         <div className="lecture_container">
           <div className="lecture_header">
             <img src={banner} alt="banner" />
           </div>
           <h2>{lectureDetails?.name}</h2>
 
-          <div className="lceture_loading_list">
-            <div className="lceture_loading_item">
-              <div>
-                <FontAwesomeIcon icon={faPlay} />
+          {getLoading ? (
+            <div className="lceture_loading_list">
+              <div className="lceture_loading_item">
+                <div>
+                  <FontAwesomeIcon icon={faPlay} />
+                </div>
+              </div>
+              <div className="lceture_loading_item">
+                <div>
+                  <FontAwesomeIcon icon={faPlay} />
+                </div>
+              </div>
+              <div className="lceture_loading_item">
+                <div>
+                  <FontAwesomeIcon icon={faPlay} />
+                </div>
               </div>
             </div>
-            <div className="lceture_loading_item">
-              <div>
-                <FontAwesomeIcon icon={faPlay} />
-              </div>
-            </div>
-            <div className="lceture_loading_item">
-              <div>
-                <FontAwesomeIcon icon={faPlay} />
-              </div>
-            </div>
-          </div>
-
-          {lectureDetails?.parts?.map((part) => (
-            <div className="lecture_content">
-              <h3>{part.name}</h3>
-              {part.videoUrl.map((url) => {
-                console.log(url);
-
-                return (
-                  <div className="videoPlay">
-                    <div className="iframe-container">
-                      <iframe
-                        src={url}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
+          ) : (
+            lectureDetails?.parts?.map((part) => (
+              <div className="lecture_content">
+                <h3>{part.name}</h3>
+                {part.videoUrl.map((url) => {
+                  return (
+                    <div className="videoPlay">
+                      <div className="iframe-container">
+                        <iframe
+                          src={url}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                      <FontAwesomeIcon
+                        icon={faPlay}
+                        onClick={() => getVideo(url)}
+                      />
                     </div>
-                    <FontAwesomeIcon
-                      icon={faPlay}
-                      onClick={() => getVideo(url)}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+                  );
+                })}
+              </div>
+            ))
+          )}
 
           <div className="pdf_container">
-            <iframe
-              src="https://drive.google.com/file/d/19NGhr40RpqaIUCwlcgtsMK0rmnm2vw51/preview"
-              width="350px"
-              height="600px"
-              title="PDF Viewer"
-            />
+            {lectureDetails?.pdfFile?.map((pdf) => {
+              return (
+                <iframe
+                  src={pdf}
+                  width="350px"
+                  height="600px"
+                  title="PDF Viewer"
+                />
+              );
+            })}
           </div>
         </div>
       </section>
