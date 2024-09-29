@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/dr-python/static/css/main.93ac682f.css",
-    "main.js": "/dr-python/static/js/main.6b00767d.js",
+    "main.css": "/dr-python/static/css/main.2f1144a6.css",
+    "main.js": "/dr-python/static/js/main.ad1104ca.js",
     "static/media/1.mp4": "/dr-python/static/media/1.d3740eae60b1a5155f46.mp4",
     "static/media/pdf.pdf": "/dr-python/static/media/pdf.18cca7a0c73dce14a80f.pdf",
     "static/media/login.jpg": "/dr-python/static/media/login.bd1d559357fbf6486b27.jpg",
     "static/media/b2.jpg": "/dr-python/static/media/b2.143e491242b908d2e1fa.jpg",
     "index.html": "/dr-python/index.html",
-    "main.93ac682f.css.map": "/dr-python/static/css/main.93ac682f.css.map",
-    "main.6b00767d.js.map": "/dr-python/static/js/main.6b00767d.js.map"
+    "main.2f1144a6.css.map": "/dr-python/static/css/main.2f1144a6.css.map",
+    "main.ad1104ca.js.map": "/dr-python/static/js/main.ad1104ca.js.map"
   },
   "entrypoints": [
-    "static/css/main.93ac682f.css",
-    "static/js/main.6b00767d.js"
+    "static/css/main.2f1144a6.css",
+    "static/js/main.ad1104ca.js"
   ]
 }
