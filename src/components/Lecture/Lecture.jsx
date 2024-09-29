@@ -4,18 +4,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import vid1 from "./1.mp4";
 import banner from "../../images/b2.jpg";
-
+import pdfFile from "./pdf.pdf";
+import LecturesDetailsAPI from "../../api/Lectures/LecturesDetailsAPI";
+import Subjects from "../Subjects/Subjects";
+import { useParams } from "react-router-dom";
 const Lecture = () => {
+  useEffect(() => {
+    lectureDetailsApi();
+  }, []);
+  const { subjectId, lectureId } = useParams();
   const videos = [
-    { id: 1, url: vid1 },
-    { id: 2, url: vid1 },
-    { id: 3, url: vid1 },
-    { id: 4, url: vid1 },
-    { id: 5, url: vid1 },
+    { id: 1, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+    { id: 2, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+    { id: 3, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+    { id: 4, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
+    { id: 5, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
   ];
 
   const [model, setModel] = useState(false);
   const [videoURL, setVideoURL] = useState("");
+  const [lectureDetails, setLectureDetails] = useState();
+  const [error, setError] = useState("");
+  const [getLoading, setGetLoading] = useState(false);
   const videoRef = useRef(null);
   const flowInfoRef = useRef(null);
 
@@ -74,6 +84,29 @@ const Lecture = () => {
       videoRef.current.msRequestFullscreen();
     }
   };
+  const lectureDetailsApi = () => {
+    LecturesDetailsAPI(
+      setError,
+      setGetLoading,
+      setLectureDetails,
+      subjectId,
+      lectureId
+    );
+  };
+  const getEmbedUrl = (baseUrl) => {
+    const match = baseUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return `https://drive.google.com/file/d/${match[1]}/preview`;
+    }
+    return null; // return null if the URL format is invalid
+  };
+
+  // Example usage
+  const baseUrl =
+    "https://drive.google.com/file/d/19NGhr40RpqaIUCwlcgtsMK0rmnm2vw51/view?usp=drive_link";
+  const embedUrl = getEmbedUrl(baseUrl);
+
+  console.log(embedUrl); // Outputs: https://drive.google.com/file/d/19NGhr40RpqaIUCwlcgtsMK0rmnm2vw51/preview
 
   return (
     <>
@@ -83,7 +116,14 @@ const Lecture = () => {
           ref={videoRef}
           onClick={requestFullscreen}
         >
-          <video src={videoURL} controls></video>
+          <div className="iframe-container">
+            <iframe
+              src={videoURL}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
           <div ref={flowInfoRef} className="flow_info">
             <p>Zeyad Mashaal</p>
           </div>
@@ -96,7 +136,7 @@ const Lecture = () => {
           <div className="lecture_header">
             <img src={banner} alt="banner" />
           </div>
-          <h2>Our Lecture</h2>
+          <h2>{lectureDetails?.name}</h2>
 
           <div className="lceture_loading_list">
             <div className="lceture_loading_item">
@@ -116,17 +156,40 @@ const Lecture = () => {
             </div>
           </div>
 
-          {videos.map((file) => (
-            <div className="lecture_content" key={file.id}>
-              <div className="videoPlay">
-                <video src={file.url} controls></video>
-                <FontAwesomeIcon
-                  icon={faPlay}
-                  onClick={() => getVideo(file.url)}
-                />
-              </div>
+          {lectureDetails?.parts?.map((part) => (
+            <div className="lecture_content">
+              <h3>{part.name}</h3>
+              {part.videoUrl.map((url) => {
+                console.log(url);
+
+                return (
+                  <div className="videoPlay">
+                    <div className="iframe-container">
+                      <iframe
+                        src={url}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                    <FontAwesomeIcon
+                      icon={faPlay}
+                      onClick={() => getVideo(url)}
+                    />
+                  </div>
+                );
+              })}
             </div>
           ))}
+
+          <div className="pdf_container">
+            <iframe
+              src="https://drive.google.com/file/d/19NGhr40RpqaIUCwlcgtsMK0rmnm2vw51/preview"
+              width="350px"
+              height="600px"
+              title="PDF Viewer"
+            />
+          </div>
         </div>
       </section>
     </>

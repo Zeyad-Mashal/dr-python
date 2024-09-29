@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import "./allLectures.css";
 import error from "../../images/404.png";
-import { Link } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
+import getAllLecturesAPI from "../../api/Lectures/getAllLecturesAPI";
 const AllLectures = () => {
+  useEffect(() => {
+    getAllLectures();
+  }, []);
+  const { subjectId } = useParams();
+  const [allLectures, setAllLectures] = useState([]);
+  const [error, setError] = useState("");
+  const [getLoading, setGetLoading] = useState(false);
+  const getAllLectures = () => {
+    getAllLecturesAPI(setError, setGetLoading, setAllLectures, subjectId);
+  };
   return (
     <>
       <div className="errorPage">
@@ -24,32 +34,29 @@ const AllLectures = () => {
           <div className="AllLectures_container">
             <h1 className="AllLectures_title">جميع المحاضرات</h1>
             <div className="all_lectures_list">
-              <div className="loading_list">
-                <div className="loading_item">
-                  <p></p>
+              {getLoading ? (
+                <div className="loading_list_lectures">
+                  <div className="loading_item_lectures">
+                    <p></p>
+                  </div>
+                  <div className="loading_item_lectures">
+                    <p></p>
+                  </div>
+                  <div className="loading_item_lectures">
+                    <p></p>
+                  </div>
                 </div>
-                <div className="loading_item">
-                  <p></p>
-                </div>
-                <div className="loading_item">
-                  <p></p>
-                </div>
-              </div>
-              <Link to={"/lectures"}>
-                <div className="all_lectures_item">
-                  <p>Day 1</p>
-                </div>
-              </Link>
-              <Link to={"/lectures"}>
-                <div className="all_lectures_item">
-                  <p>Day 2</p>
-                </div>
-              </Link>
-              <Link to={"/lectures"}>
-                <div className="all_lectures_item">
-                  <p>Day 3</p>
-                </div>
-              </Link>
+              ) : (
+                allLectures.map((item) => {
+                  return (
+                    <Link to={`/lectures/${subjectId}/${item._id}`}>
+                      <div className="all_lectures_item">
+                        <p>{item.name}</p>
+                      </div>
+                    </Link>
+                  );
+                })
+              )}
             </div>
           </div>
         </section>

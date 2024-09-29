@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
-import error from "../../images/404.png";
-import { Link } from "react-router-dom";
+import LoginAPI from "../../api/Auth/LoginAPI";
+import LogoutAPI from "../../api/Auth/LogoutAPI";
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
+  const LogIn = () => {
+    const data = {
+      email,
+      password,
+      role: "Student",
+    };
+    LoginAPI(data, setError, setLoginLoading);
+  };
+  const Logout = () => {};
   return (
     <>
       <div className="errorPage">
@@ -21,11 +34,22 @@ const Login = () => {
           <div className="login_container">
             <div className="login_form">
               <h3>Login</h3>
-              <input type="text" placeholder="username" />
-              <input type="password" placeholder="password" />
-              <Link to="/subjects">
-                <button>تسجيل</button>
-              </Link>
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <button onClick={LogIn}>
+                {loginLoading ? <span class="loader"></span> : "تسجيل"}
+              </button>
             </div>
           </div>
         </section>

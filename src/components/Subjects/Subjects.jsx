@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import image from "../../images/b2.jpg";
 import image2 from "../../images/404.png";
 import error from "../../images/404.png";
 import { Link } from "react-router-dom";
 import "./Subjects.css";
+import getAllSubjectsAPI from "../../api/Subjects/getAllSubjectsAPI";
 const Subjects = () => {
+  useEffect(() => {
+    getAllSubjects();
+  }, []);
+  const [error, setError] = useState("");
+  const [getLoading, setGetLoading] = useState(false);
+  const [allSubjects, setAllSubjects] = useState([]);
+  const getAllSubjects = () => {
+    getAllSubjectsAPI(setError, setGetLoading, setAllSubjects);
+  };
   return (
     <>
       <div className="errorPage">
@@ -29,20 +39,26 @@ const Subjects = () => {
             </h3>
             <p>أختار المادة</p>
 
-            <div className="loading_list">
-              <div className="loading_item">
-                <p></p>
-                <div></div>
-              </div>
-            </div>
             <div className="subjects_list">
-              <Link to="/all_lectures">
-                <div className="subjects_item">
-                  <h3>Programming</h3>
-                  <img src={image2} alt="" />
-                  <p>سنة تالتة</p>
+              {getLoading ? (
+                <div className="loading_list_subject">
+                  <div className="loading_item_subject">
+                    <p></p>
+                    <div></div>
+                  </div>
                 </div>
-              </Link>
+              ) : (
+                allSubjects.map((item) => {
+                  return (
+                    <Link to={`/all_lectures/${item._id}`}>
+                      <div className="subjects_item">
+                        <h3>{item.name}</h3>
+                        <img src={item.image} alt="Subject Container" />
+                      </div>
+                    </Link>
+                  );
+                })
+              )}
             </div>
           </div>
         </section>

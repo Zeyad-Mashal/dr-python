@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import LogoutAPI from "../../api/Auth/LogoutAPI";
 const Navbar = () => {
+  const [error, setError] = useState("");
+
+  const LogOut = () => {
+    const data = {
+      token: localStorage.getItem("USER_TOKEN"),
+    };
+    LogoutAPI(data, setError);
+  };
   return (
     <nav class="navbar navbar-expand-lg bg-dark text-light">
       <div class="container-fluid">
@@ -29,36 +38,8 @@ const Navbar = () => {
               <Link to={"/all_lectures"}>المحاضرات</Link>
             </li>
             <li class="nav-item">
-              <Link to={"/"}>تسجيل خروج</Link>
+              <button onClick={LogOut}>تسجيل خروج</button>
             </li>
-            {/* <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle text-light"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown link
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li> */}
           </ul>
         </div>
       </div>
