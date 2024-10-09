@@ -398,6 +398,15 @@
   justify-content: center;
   align-items: center;
 }
+.overlayTop {
+  width: 120%;
+  height: 80px;
+  background-color: transparent;
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 @keyframes fill {
   0% {
     box-shadow: 0 0 0 2px inset;

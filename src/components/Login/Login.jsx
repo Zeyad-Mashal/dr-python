@@ -44,7 +44,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-
+              {error}
               <button onClick={LogIn}>
                 {loginLoading ? <span class="loader"></span> : "تسجيل"}
               </button>

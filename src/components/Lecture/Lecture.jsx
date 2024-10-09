@@ -158,6 +158,7 @@ const Lecture = () => {
           <div className="overlay_out"></div>
           <div className="overlay_out_bottom"></div>
           <FullScreen handle={handle}>
+            <div className="overlayTop"></div>
             <div className="video-container">
               <ReactPlayer url={videoURL} width="100%" height="100%" controls />
               {handle.active && (

@@ -26,14 +26,14 @@ function App() {
     }
   };
 
-  // document.addEventListener('contextmenu', function (e) {
-  //   e.preventDefault();
-  // });
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
 
   return (
     <div className="App">
 
-      <Router basename='dr-python'>
+      <Router>
         <Routes>
           <Route path="/" element={isAuth ? <Navigate to={"/subjects"} /> : <Login />} />
           <Route path="/lectures/:subjectId/:lectureId/:token" element={isAuth ? <Home /> : <Navigate to={"/"} />} />
