@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/dr-python/static/css/main.02c33a1b.css",
-    "main.js": "/dr-python/static/js/main.5498f80f.js",
+    "main.js": "/dr-python/static/js/main.cbe64c38.js",
     "reactPlayerYouTube.js": "/dr-python/static/js/reactPlayerYouTube.469dcce3.chunk.js",
     "reactPlayerSoundCloud.js": "/dr-python/static/js/reactPlayerSoundCloud.cc788e1b.chunk.js",
     "reactPlayerVimeo.js": "/dr-python/static/js/reactPlayerVimeo.51d7fcba.chunk.js",
@@ -20,7 +20,7 @@
     "static/media/b2.jpg": "/dr-python/static/media/b2.143e491242b908d2e1fa.jpg",
     "index.html": "/dr-python/index.html",
     "main.02c33a1b.css.map": "/dr-python/static/css/main.02c33a1b.css.map",
-    "main.5498f80f.js.map": "/dr-python/static/js/main.5498f80f.js.map",
+    "main.cbe64c38.js.map": "/dr-python/static/js/main.cbe64c38.js.map",
     "reactPlayerYouTube.469dcce3.chunk.js.map": "/dr-python/static/js/reactPlayerYouTube.469dcce3.chunk.js.map",
     "reactPlayerSoundCloud.cc788e1b.chunk.js.map": "/dr-python/static/js/reactPlayerSoundCloud.cc788e1b.chunk.js.map",
     "reactPlayerVimeo.51d7fcba.chunk.js.map": "/dr-python/static/js/reactPlayerVimeo.51d7fcba.chunk.js.map",
@@ -38,6 +38,6 @@
   },
   "entrypoints": [
     "static/css/main.02c33a1b.css",
-    "static/js/main.5498f80f.js"
+    "static/js/main.cbe64c38.js"
   ]
 }
