@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import "./allLectures.css";
-import error from "../../images/404.png";
+import errorImage from "../../images/404.png";
 import { Link, useParams } from "react-router-dom";
 import getAllLecturesAPI from "../../api/Lectures/getAllLecturesAPI";
 const AllLectures = () => {
@@ -15,13 +15,14 @@ const AllLectures = () => {
   const getAllLectures = () => {
     getAllLecturesAPI(setError, setGetLoading, setAllLectures, subjectId);
   };
+  const token = localStorage.getItem("USER_TOKEN");
   return (
     <>
       <div className="errorPage">
         <div className="errorPage_container">
           <div className="error_404">
             <h1>404</h1>
-            <img src={error} alt="error 404" />
+            <img src={errorImage} alt="error 404" />
           </div>
           <p>هذه المنصة لا تعمل الا علي شاشة الهاتف</p>
           <p>يرجي استخدام الهاتف لعدم التعرض الي ضياع الحساب</p>
@@ -49,7 +50,7 @@ const AllLectures = () => {
               ) : (
                 allLectures.map((item) => {
                   return (
-                    <Link to={`/lectures/${subjectId}/${item._id}`}>
+                    <Link to={`/lectures/${subjectId}/${item._id}/${token}`}>
                       <div className="all_lectures_item">
                         <p>{item.name}</p>
                       </div>

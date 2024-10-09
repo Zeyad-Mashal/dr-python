@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
 import LoginAPI from "../../api/Auth/LoginAPI";
-import LogoutAPI from "../../api/Auth/LogoutAPI";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +14,6 @@ const Login = () => {
     };
     LoginAPI(data, setError, setLoginLoading);
   };
-  const Logout = () => {};
   return (
     <>
       <div className="errorPage">
@@ -33,16 +31,16 @@ const Login = () => {
         <section className="login">
           <div className="login_container">
             <div className="login_form">
-              <h3>Login</h3>
+              <h3>تسجيل دخول</h3>
               <input
                 type="text"
-                placeholder="Email"
+                placeholder="الايميل"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="password"
-                placeholder="password"
+                placeholder="الباسورد"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

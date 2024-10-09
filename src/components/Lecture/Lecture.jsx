@@ -2,25 +2,19 @@ import React, { useState, useRef, useEffect } from "react";
 import "./Lecture.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faX } from "@fortawesome/free-solid-svg-icons";
-import vid1 from "./1.mp4";
-import banner from "../../images/b2.jpg";
-import pdfFile from "./pdf.pdf";
 import LecturesDetailsAPI from "../../api/Lectures/LecturesDetailsAPI";
-import Subjects from "../Subjects/Subjects";
 import { useParams } from "react-router-dom";
 import LectureCounterAPI from "../../api/Lectures/LectureCounterAPI";
+import ReactPlayer from "react-player";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import startLectureCounter from "../../api/Lectures/startLectureCounter";
+import endLectureCounter from "../../api/Lectures/endLectureCounter";
 const Lecture = () => {
   useEffect(() => {
     lectureDetailsApi();
   }, []);
-  const { subjectId, lectureId } = useParams();
-  // const videos = [
-  //   { id: 1, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-  //   { id: 2, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-  //   { id: 3, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-  //   { id: 4, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-  //   { id: 5, url: "https://www.youtube.com/embed/XqvrpzmEg9s" },
-  // ];
+  const handle = useFullScreenHandle();
+  const { subjectId, lectureId, token } = useParams();
 
   const [model, setModel] = useState(false);
   const [videoURL, setVideoURL] = useState("");
@@ -28,145 +22,161 @@ const Lecture = () => {
   const [error, setError] = useState("");
   const [getLoading, setGetLoading] = useState(false);
   const [viewsLoading, setViewsLoading] = useState(false);
-  const videoRef = useRef(null);
   const flowInfoRef = useRef(null);
-
+  const [viewsCount, setViewsCount] = useState("");
+  const [student, setStudent] = useState({});
+  const [image, setImage] = useState("");
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [counterPopup, setCounterPopup] = useState(false);
+  const intervalRef = useRef(null); // To store the interval
+  const sessionRef = useRef(null); // To store the interval
+  const [checkMinutes, setCheckMinutes] = useState(false);
   const getVideo = (url) => {
     setVideoURL(url);
     const data = {
       lectureId,
       videoUrl: url,
     };
-    LectureCounterAPI(data, setError, setViewsLoading, setModel);
+    LectureCounterAPI(
+      data,
+      setError,
+      setViewsLoading,
+      setModel,
+      setViewsCount,
+      setStudent,
+      startLectureCounter,
+      timerCount,
+      endSession,
+      token
+    );
   };
 
-  const handleFullscreenChange = () => {
-    const isFullscreen =
-      document.fullscreenElement ||
-      document.webkitFullscreenElement ||
-      document.mozFullScreenElement ||
-      document.msFullscreenElement;
-    if (isFullscreen) {
-      flowInfoRef.current.style.position = "fixed";
-      flowInfoRef.current.style.zIndex = "2";
-      flowInfoRef.current.style.top = "10px";
-      flowInfoRef.current.style.left = "10px";
-    } else {
-      flowInfoRef.current.style.position = "absolute";
-    }
-  };
-
-  // useEffect(() => {
-  //   document.addEventListener("fullscreenchange", handleFullscreenChange);
-  //   document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-  //   document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-  //   document.addEventListener("msfullscreenchange", handleFullscreenChange);
-
-  //   return () => {
-  //     document.removeEventListener("fullscreenchange", handleFullscreenChange);
-  //     document.removeEventListener(
-  //       "webkitfullscreenchange",
-  //       handleFullscreenChange
-  //     );
-  //     document.removeEventListener(
-  //       "mozfullscreenchange",
-  //       handleFullscreenChange
-  //     );
-  //     document.removeEventListener(
-  //       "msfullscreenchange",
-  //       handleFullscreenChange
-  //     );
+  // const startCounter = () => {
+  //   const data = {
+  //     videoUrl: videoURL,
   //   };
-  // }, []);
+  //   console.log(videoURL, lectureId);
+  //   startLectureCounter(data, setError, lectureId, setCounterPopup, timerCount);
+  // };
+
+  // const timerCount = () => {
+  //   setCounterPopup(true);
+  //   intervalRef.current = setInterval(() => {
+  //     setCount((prevCount) => {
+  //       console.log(prevCount);
+  //       if (prevCount === 59 && checkMinutes === false) {
+  //         setMinute((prevMinute) => prevMinute + 1);
+  //         setCheckMinutes(true);
+  //         return 0;
+  //       }
+  //       setCheckMinutes(false);
+  //       return prevCount + 1;
+  //     });
+  //   }, 1000);
+  // };
 
   useEffect(() => {
-    const handleFullscreenChange = () => {
-      const usernameElement = document.querySelector(".floating-username");
-      if (document.fullscreenElement) {
-        usernameElement.style.position = "fixed";
-      } else {
-        usernameElement.style.position = "fixed"; // Keep fixed in non-fullscreen too
-      }
-    };
+    let interval = null;
 
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
-
-  const requestFullscreen = () => {
-    if (videoRef.current.requestFullscreen) {
-      videoRef.current.requestFullscreen();
-    } else if (videoRef.current.webkitRequestFullscreen) {
-      videoRef.current.webkitRequestFullscreen();
-    } else if (videoRef.current.mozRequestFullScreen) {
-      videoRef.current.mozRequestFullScreen();
-    } else if (videoRef.current.msRequestFullscreen) {
-      videoRef.current.msRequestFullscreen();
+    if (isActive) {
+      setCounterPopup(true);
+      interval = setInterval(() => {
+        setSeconds((prevSeconds) => {
+          if (prevSeconds === 59) {
+            setMinutes((prevMinutes) => prevMinutes + 1);
+            return 0;
+          }
+          return prevSeconds + 1;
+        });
+      }, 1000);
+    } else if (!isActive && (seconds !== 0 || minutes !== 0)) {
+      clearInterval(interval);
     }
+
+    return () => clearInterval(interval);
+  }, [isActive, seconds]);
+
+  const timerCount = () => {
+    setIsActive(true);
   };
+
   const lectureDetailsApi = () => {
     LecturesDetailsAPI(
       setError,
       setGetLoading,
       setLectureDetails,
       subjectId,
-      lectureId
+      lectureId,
+      setImage,
+      token
     );
   };
-  const getEmbedUrl = (baseUrl) => {
-    const match = baseUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) {
-      return `https://drive.google.com/file/d/${match[1]}/preview`;
-    }
-    return null; // return null if the URL format is invalid
+
+  const endSession = (sessionId) => {
+    sessionRef.current = setInterval(() => {
+      endLectureCounter(setError, sessionId, token);
+    }, 5000);
   };
 
-  // Example usage
-  const baseUrl =
-    "https://drive.google.com/file/d/19NGhr40RpqaIUCwlcgtsMK0rmnm2vw51/view?usp=drive_link";
-  const embedUrl = getEmbedUrl(baseUrl);
+  // Clear interval on unmount to avoid memory leaks
+  const closeModel = () => {
+    clearInterval(sessionRef.current);
+    // clearInterval(intervalRef.current);
+    setModel(false);
+    setCounterPopup(false);
+    setIsActive(false);
+    setSeconds(0);
+    setMinutes(0);
+  };
 
   const closeError = () => {
     document.querySelector(".error_popup").style.display = "none";
   };
-
   return (
     <>
       <div className={model ? "model open" : "model"}>
-        {/* <div style={{ position: "relative" }}>
-          <iframe
-            width="560"
-            height="315"
-            src={
-              "https://www.youtube.com/embed/XqvrpzmEg9s?si=jEsYDTc5jl8HTxOq?controls=0&showinfo=0"
-            }
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-          <div className="floating-username">Zeyad Ahmed</div>
-        </div> */}
+        <div className="counter_views">
+          <span>
+            عدد المشاهدات المتبقية : {lectureDetails?.maxViews}/{viewsCount}
+          </span>
+        </div>
         <div ref={flowInfoRef} className="flow_info">
-          <p>Zeyad Mashaal</p>
+          <p>{student.phone}</p>
+          <p>{student.email}</p>
         </div>
-        <div
-          className="videoContainer"
-          ref={videoRef}
-          onClick={requestFullscreen}
-        >
-          <div className="iframe-container">
-            <iframe
-              src={videoURL}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+        {counterPopup ? (
+          <div className="counter_time">
+            <span>
+              Time : {minutes}m:{seconds}s
+            </span>
           </div>
+        ) : null}
+
+        <div className="videoContainer">
+          <div className="overlay_out"></div>
+          <div className="overlay_out_bottom"></div>
+          <FullScreen handle={handle}>
+            <div className="video-container">
+              <ReactPlayer url={videoURL} width="100%" height="100%" controls />
+              {handle.active && (
+                <div ref={flowInfoRef} className="flow_info">
+                  <p>{student.phone}</p>
+                  <p>{student.email}</p>
+                </div>
+              )}
+            </div>
+            {!handle.active ? (
+              <button onClick={handle.enter} className="open"></button>
+            ) : (
+              <button onClick={handle.exit} className="close"></button>
+            )}
+          </FullScreen>
         </div>
-        <button onClick={() => setModel(false)}>إنهاء</button>
+        <button onClick={closeModel} className="close_open">
+          إنهاء
+        </button>
       </div>
 
       <section className="lecture">
@@ -182,7 +192,7 @@ const Lecture = () => {
         </div>
         <div className="lecture_container">
           <div className="lecture_header">
-            <img src={banner} alt="banner" />
+            <img src={image} alt="banner" />
           </div>
           <h2>{lectureDetails?.name}</h2>
 
@@ -206,29 +216,76 @@ const Lecture = () => {
             </div>
           ) : (
             lectureDetails?.parts?.map((part) => (
-              <div className="lecture_content">
-                <h3>{part.name}</h3>
-                {part.videoUrl.map((url) => {
-                  return (
-                    <div className="videoPlay">
-                      <div className="iframe-container">
-                        <iframe
-                          src={
-                            "https://www.youtube.com/embed/XqvrpzmEg9s?si=jEsYDTc5jl8HTxOq?autoplay=1&mute=1&controls=0"
-                          }
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
+              <>
+                {/* <div className="lecture_content">
+                  <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseOne"
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                        >
+                          <h3>{part.name}</h3>
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseOne"
+                        class="accordion-collapse collapse show"
+                        data-bs-parent="#accordionExample"
+                      >
+                        {part.videoUrl.map((url) => {
+                          return (
+                            <div class="accordion-body">
+                              <div className="videoPlay">
+                                <div className="iframe-container">
+                                  <iframe
+                                    src={url}
+                                    frameBorder="0"
+                                    title="Python"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                  ></iframe>
+                                </div>
+                                <FontAwesomeIcon
+                                  icon={faPlay}
+                                  onClick={() => getVideo(url)}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                      <FontAwesomeIcon
-                        icon={faPlay}
-                        onClick={() => getVideo(url)}
-                      />
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                </div> */}
+
+                <div className="lecture_content">
+                  <h3>{part.name}</h3>
+                  {part.videoUrl.map((url) => {
+                    return (
+                      <div className="videoPlay">
+                        <div className="iframe-container">
+                          <iframe
+                            src={url}
+                            frameBorder="0"
+                            title="Python"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                        <FontAwesomeIcon
+                          icon={faPlay}
+                          onClick={() => getVideo(url)}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
             ))
           )}
 

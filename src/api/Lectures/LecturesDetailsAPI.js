@@ -1,13 +1,12 @@
 const URL = "https://back.dr-python.center/student/lectureDetails/";
-const USER_TOKEN = localStorage.getItem("USER_TOKEN")
-const LecturesDetailsAPI = async (setError, setGetLoading, setLectureDetails, subjectId, lectureId) => {
+const LecturesDetailsAPI = async (setError, setGetLoading, setLectureDetails, subjectId, lectureId, setImage, token) => {
     setGetLoading(true)
     try {
         const response = await fetch(`${URL}${subjectId}/${lectureId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                "authorization": `drpz0${USER_TOKEN}`
+                "authorization": `drpz0${token}`
             },
         });
 
@@ -16,6 +15,8 @@ const LecturesDetailsAPI = async (setError, setGetLoading, setLectureDetails, su
         if (response.ok) {
             setLectureDetails(result.lecture)
             setGetLoading(false)
+            setImage(result.image)
+
         } else {
             if (response.status == 404) {
                 setError(result.message);
