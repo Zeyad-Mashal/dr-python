@@ -38,8 +38,7 @@ function App() {
           <Route path="/" element={isAuth ? <Navigate to={"/subjects"} /> : <Login />} />
           <Route path="/lectures/:subjectId/:lectureId/:token" element={isAuth ? <Home /> : <Navigate to={"/"} />} />
           <Route path="/subjects" element={isAuth ? <Subjects /> : <Navigate to={"/"} />} />
-          <Route path="/all_lectures/:subjectId" element={isAuth ? <AllLectures /> : <Navigate to={"/"} />} />
-          <Route path="/test" element={isAuth ? <Test /> : <Navigate to={"/"} />} />
+          <Route path="/all_lectures/:subjectId" element={<AllLectures />} />
         </Routes>
       </Router>
     </div>
